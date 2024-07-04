@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views https://axelor.com/xml/ns/object-views/object-views_7.1.xsd">
+
+  <grid name="currency-test" title="Currencies" model="com.axelor.sale.db.CurrencyRate">
+    <field name="currencyCode"/>
+    <field name="currencyName"/>
+    <field name="rate"/>
+    <field name="rateChange"/>
+    <field name="date"/>
+  </grid>
+
+  <form name="currency-test" title="Currency" model="com.axelor.sale.db.CurrencyRate" width="mini">
+    <panel title="Overview">
+      <field name="currencyCode" required="true"/>
+      <field name="currencyName" required="true"/>
+      <field name="rate" required="true"/>
+      <field name="rateChange"/>
+      <field name="date" required="true"/>
+    </panel>
+  </form>
+
+</object-views>

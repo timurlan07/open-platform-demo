@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views https://axelor.com/xml/ns/object-views/object-views_7.1.xsd">
+
+    <menuitem name="menu-currency-info" order="-100" title="Currency Info" icon="fa-book" icon-background="purple"/>
+
+    <menuitem name="daily-currency" parent="menu-currency-info"
+              title="Daily currency"
+              action="currency.daily" />
+
+    <action-view name="currency.daily" model="com.axelor.currency.db.Currency" title="Currencies">
+        <view type="grid" name="currency-grid"/>
+        <domain>self.code in ('RUB', 'EUR', 'USD', 'KZT')</domain>
+    </action-view>
+
+    <menuitem name="Weekly-currency" parent="menu-currency-info"
+              title="Weekly currency"
+              action="currency.weekly" />
+
+    <action-view name="currency.weekly" model="com.axelor.currency.db.Currency" title="Currencies">
+        <view type="grid" name="currency-grid"/>
+        <domain>self.code not in ('RUB', 'EUR', 'USD', 'KZT')</domain>
+    </action-view>
+<!--new view-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+</object-views>
