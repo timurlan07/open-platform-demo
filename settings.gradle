@@ -49,6 +49,6 @@ include 'modules:demo-project'
 include 'modules:demo-custom'
 include 'modules:demo-data'
 include 'modules:demo-currency'
-include 'modules:demo-company'
-include 'modules:demo-employee'
+include 'modules:demo-com'
+include 'modules:demo-empl'
 

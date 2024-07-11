@@ -10,7 +10,7 @@
         <string name="location" required="true"/>
         <date name="dateOfCreation" required="true" />
         <boolean name="active" required="true" />
-        <one-to-many name="employee" ref="Employee" mappedBy="company"/>
+        <one-to-many name="employee" ref="com.axelor.employee.db.Employee" mappedBy="company"/>
     </entity>
 
 </domain-models>

@@ -1,0 +1,12 @@
+
+plugins {
+    id 'com.axelor.app'
+}
+
+axelor {
+    title = "Axelor :: Com"
+}
+
+//dependencies {
+//    implementation project(':modules:demo-com')
+//}
