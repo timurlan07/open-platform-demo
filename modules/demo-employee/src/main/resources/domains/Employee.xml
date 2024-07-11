@@ -11,7 +11,7 @@
         <string name="email" required="true" unique="true"/>
         <integer name="age"  required="true" />
         <boolean name="active" required="true" />
-        <many-to-one name="company" ref="com.axelor.company.db.Companies"/>
+        <many-to-one name="company" ref="Companies"/>
     </entity>
 
 </domain-models>

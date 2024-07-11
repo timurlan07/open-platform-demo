@@ -41,8 +41,8 @@ dependencies {
   implementation project(':modules:demo-project')
   implementation project(':modules:demo-custom')
   implementation project(':modules:demo-currency')
-  implementation project(':modules:demo-com')
-  implementation project(':modules:demo-empl')
+  implementation project(':modules:demo-company')
+  implementation project(':modules:demo-employee')
 }
 
 war {

@@ -6,7 +6,6 @@ plugins {
 axelor {
     title = "Axelor :: Com"
 }
-
 //dependencies {
-//    implementation project(':modules:demo-com')
+//    api project(':modules:demo-contact')
 //}

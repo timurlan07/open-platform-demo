@@ -7,7 +7,8 @@ axelor {
     title = "Axelor :: Empl"
 }
 
-
 dependencies {
-    implementation project(':modules:demo-com')
+    api project(":modules:demo-company")
 }
+
+
