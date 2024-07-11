@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views https://axelor.com/xml/ns/object-views/object-views_7.1.xsd">
+
+    <grid name="company-grid" title="Company List" model="com.axelor.company.db.Companies">
+        <field name="name" />
+        <field name="location" />
+        <field name="dateOfCreation" />
+        <field name="active" />
+    </grid>
+
+    <form name="company-form" title="Company" model="com.axelor.company.db.Companies">
+        <panel title="Overview">
+            <field name="name" colSpan="12"/>
+            <field name="location" />
+            <field name="dateOfCreation" />
+        </panel>
+    </form>
+
+</object-views>

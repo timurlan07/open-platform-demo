@@ -40,6 +40,8 @@ dependencies {
   implementation project(':modules:demo-sale')
   implementation project(':modules:demo-project')
   implementation project(':modules:demo-custom')
+  implementation project(':modules:demo-company')
+  implementation project(':modules:demo-employee')
   implementation project(':modules:demo-currency')
 }
 

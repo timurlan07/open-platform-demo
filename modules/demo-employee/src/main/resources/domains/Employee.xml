@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://axelor.com/xml/ns/domain-models https://axelor.com/xml/ns/domain-models/domain-models_7.1.xsd">
+
+    <module name="car" package="com.axelor.employee.db"/>
+
+    <entity name="Employee" cacheable="true">
+        <string name="lastName" required="true" />
+        <string name="firstName" required="true"/>
+        <string name="email" required="true" unique="true"/>
+        <integer name="age"  required="true" />
+        <boolean name="active" required="true" />
+        <many-to-one name="company" ref="Companies"/>
+    </entity>
+
+</domain-models>

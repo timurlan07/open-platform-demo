@@ -47,51 +47,129 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Override
     public void parseAndSave(String xmlContent) {
         try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(new InputSource(new StringReader(xmlContent)));
+            Document document = parseXmlContent(xmlContent);
+            LocalDate dateOfCourseUpdate = extractDate(document);
 
-            Element rootElement = document.getDocumentElement();
-            String dateStr = rootElement.getAttribute("Date");
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            LocalDate dateOfCourseUpdate = LocalDate.parse(dateStr, formatter);
-            List<Currency> existingCurrencies = currencyRateRepository.findByDateOfCourseUpdate(dateOfCourseUpdate);
-            if (!existingCurrencies.isEmpty()) {
-                System.out.println("Данные на " + dateStr + " уже существуют. Обновление пропущено.");
+            if (isDataExist(dateOfCourseUpdate)) {
+                System.out.println("Данные на " + dateOfCourseUpdate + " уже существуют. Обновление пропущено.");
                 return;
             }
-            NodeList nodeList = document.getElementsByTagName("Currency");
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Element currencyElement = (Element) nodeList.item(i);
 
-                String code = currencyElement.getAttribute("ISOCode");
-                String nominal = currencyElement.getElementsByTagName("Nominal").item(0).getTextContent();
-                String value = currencyElement.getElementsByTagName("Value").item(0).getTextContent();
-
-                BigDecimal rate = new BigDecimal(value.replace(",", "."));
-
-                Currency existingCurrency = currencyRateRepository.findByCode(code);
-
-                if (existingCurrency == null) {
-                    Currency newCurrency = new Currency();
-                    newCurrency.setCode(code);
-                    newCurrency.setNominal(nominal);
-                    newCurrency.setRate(rate);
-                    newCurrency.setDateOfCourseUpdate(dateOfCourseUpdate);
-                    currencyRateRepository.save(newCurrency);
-                    System.out.println("Создана новая валюта: " + newCurrency.getCode());
-                } else {
-                    existingCurrency.setNominal(nominal);
-                    existingCurrency.setRate(rate);
-                    existingCurrency.setDateOfCourseUpdate(dateOfCourseUpdate);
-                    currencyRateRepository.save(existingCurrency);
-                    System.out.println("Обновлена валюта: " + existingCurrency.getCode());
-                }
-            }
+            processCurrencies(document, dateOfCourseUpdate);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private Document parseXmlContent(String xmlContent) throws Exception {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        return builder.parse(new InputSource(new StringReader(xmlContent)));
+    }
+
+    private LocalDate extractDate(Document document) {
+        Element rootElement = document.getDocumentElement();
+        String dateStr = rootElement.getAttribute("Date");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        return LocalDate.parse(dateStr, formatter);
+    }
+
+    private boolean isDataExist(LocalDate dateOfCourseUpdate) {
+        List<Currency> existingCurrencies = currencyRateRepository.findByDateOfCourseUpdate(dateOfCourseUpdate);
+        return !existingCurrencies.isEmpty();
+    }
+
+    private void processCurrencies(Document document, LocalDate dateOfCourseUpdate) {
+        NodeList nodeList = document.getElementsByTagName("Currency");
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Element currencyElement = (Element) nodeList.item(i);
+            processCurrencyElement(currencyElement, dateOfCourseUpdate);
+        }
+    }
+
+    private void processCurrencyElement(Element currencyElement, LocalDate dateOfCourseUpdate) {
+        String code = currencyElement.getAttribute("ISOCode");
+        String nominal = currencyElement.getElementsByTagName("Nominal").item(0).getTextContent();
+        String value = currencyElement.getElementsByTagName("Value").item(0).getTextContent();
+        BigDecimal rate = new BigDecimal(value.replace(",", "."));
+
+        Currency existingCurrency = currencyRateRepository.findByCode(code);
+
+        if (existingCurrency == null) {
+            createNewCurrency(code, nominal, rate, dateOfCourseUpdate);
+        } else {
+            updateExistingCurrency(existingCurrency, nominal, rate, dateOfCourseUpdate);
+        }
+    }
+
+    private void createNewCurrency(String code, String nominal, BigDecimal rate, LocalDate dateOfCourseUpdate) {
+        Currency newCurrency = new Currency();
+        newCurrency.setCode(code);
+        newCurrency.setNominal(nominal);
+        newCurrency.setRate(rate);
+        newCurrency.setDateOfCourseUpdate(dateOfCourseUpdate);
+        currencyRateRepository.save(newCurrency);
+        System.out.println("Создана новая валюта: " + newCurrency.getCode());
+    }
+
+    private void updateExistingCurrency(Currency existingCurrency, String nominal, BigDecimal rate, LocalDate dateOfCourseUpdate) {
+        existingCurrency.setNominal(nominal);
+        existingCurrency.setRate(rate);
+        existingCurrency.setDateOfCourseUpdate(dateOfCourseUpdate);
+        currencyRateRepository.save(existingCurrency);
+        System.out.println("Обновлена валюта: " + existingCurrency.getCode());
+    }
+
+
+//    @Transactional
+//    @Override
+//    public void parseAndSave(String xmlContent) {
+//        try {
+//            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//            DocumentBuilder builder = factory.newDocumentBuilder();
+//            Document document = builder.parse(new InputSource(new StringReader(xmlContent)));
+//
+//            Element rootElement = document.getDocumentElement();
+//            String dateStr = rootElement.getAttribute("Date");
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+//            LocalDate dateOfCourseUpdate = LocalDate.parse(dateStr, formatter);
+//            List<Currency> existingCurrencies = currencyRateRepository.findByDateOfCourseUpdate(dateOfCourseUpdate);
+//            if (!existingCurrencies.isEmpty()) {
+//                System.out.println("Данные на " + dateStr + " уже существуют. Обновление пропущено.");
+//                return;
+//            }
+//            NodeList nodeList = document.getElementsByTagName("Currency");
+//            for (int i = 0; i < nodeList.getLength(); i++) {
+//                Element currencyElement = (Element) nodeList.item(i);
+//
+//                String code = currencyElement.getAttribute("ISOCode");
+//                String nominal = currencyElement.getElementsByTagName("Nominal").item(0).getTextContent();
+//                String value = currencyElement.getElementsByTagName("Value").item(0).getTextContent();
+//
+//                BigDecimal rate = new BigDecimal(value.replace(",", "."));
+//
+//                Currency existingCurrency = currencyRateRepository.findByCode(code);
+//
+//                if (existingCurrency == null) {
+//                    Currency newCurrency = new Currency();
+//                    newCurrency.setCode(code);
+//                    newCurrency.setNominal(nominal);
+//                    newCurrency.setRate(rate);
+//                    newCurrency.setDateOfCourseUpdate(dateOfCourseUpdate);
+//                    currencyRateRepository.save(newCurrency);
+//                    System.out.println("Создана новая валюта: " + newCurrency.getCode());
+//                } else {
+//                    existingCurrency.setNominal(nominal);
+//                    existingCurrency.setRate(rate);
+//                    existingCurrency.setDateOfCourseUpdate(dateOfCourseUpdate);
+//                    currencyRateRepository.save(existingCurrency);
+//                    System.out.println("Обновлена валюта: " + existingCurrency.getCode());
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }
 

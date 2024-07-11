@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://axelor.com/xml/ns/object-views https://axelor.com/xml/ns/object-views/object-views_7.1.xsd">
+
+    <menuitem name="employee list" order="-100" title="Employee Info" icon="fa-book" icon-background="yellow"/>
+
+    <action-view name="car" model="com.axelor.employee.db.Employee" title="Employee">
+        <view type="grid" name="employee-grid"/>
+        <view type="form" name="employee-form"/>
+    </action-view>
+
+</object-views>
