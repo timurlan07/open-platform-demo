@@ -10,11 +10,12 @@ import javax.persistence.Query;
 
 public class ComRepository extends CompaniesRepository {
     @Inject
-    private EntityManager em;
+    private EntityManager manager;
 
 
-    //    @Override
+//    @Override
 //    public Companies save(Companies entity) {
+//
 //        System.out.println("Method save");
 //        System.out.println(entity);
 //        if (entity.getVersion() != 0) {
@@ -30,42 +31,39 @@ public class ComRepository extends CompaniesRepository {
 //        }
 //        return entity;
 //    }
-
-    private Companies updateExistingCompany(Companies existingEntity, Companies newEntityData) {
-        existingEntity.setStatus(Status.INACTIVE);
-        JPA.persist(existingEntity);
-        System.out.println("Existing entity deactivated");
-
-        Companies newEntity = createNewCompany(newEntityData);
-        System.out.println("New entity created: " + newEntity);
-
-        updateEmployeeCompany(newEntity.getId(), existingEntity.getId());
-        System.out.println("Employee company updated");
-
-        return newEntity;
-    }
-
-    private Companies createNewCompany(Companies newEntityData) {
-        Companies newEntity = new Companies();
-        newEntity.setName(newEntityData.getName());
-        newEntity.setLocation(newEntityData.getLocation());
-        newEntity.setDateOfCreation(newEntityData.getDateOfCreation());
-        newEntity.setStatus(Status.ACTIVE);
-        JPA.save(newEntity);
-        return newEntity;
-    }
+//
+//    private Companies updateExistingCompany(Companies existingEntity, Companies newEntityData) {
+//        existingEntity.setStatus(Status.INACTIVE);
+//        JPA.persist(existingEntity);
+//        System.out.println("Existing entity deactivated");
+//
+//        Companies newEntity = createNewCompany(newEntityData);
+//        System.out.println("New entity created: " + newEntity);
+//
+//        updateEmployeeCompany(newEntity.getId(), existingEntity.getId());
+//        System.out.println("Employee company updated");
+//
+//        return newEntity;
+//    }
+//
+//    private Companies createNewCompany(Companies newEntityData) {
+//        Companies newEntity = new Companies();
+//        newEntity.setName(newEntityData.getName());
+//        newEntity.setLocation(newEntityData.getLocation());
+//        newEntity.setDateOfCreation(newEntityData.getDateOfCreation());
+//        newEntity.setStatus(Status.ACTIVE);
+//        JPA.save(newEntity);
+//        return newEntity;
+//    }
 
     public void updateCompanyStatus(Long companyId, Status newStatus) {
-        em.createQuery("UPDATE Companies c SET c.status = :newStatus WHERE c.id = :companyId")
-                .setParameter("newStatus", newStatus)
-                .setParameter("companyId", companyId)
-                .executeUpdate();
+        manager.createQuery("UPDATE Companies c SET c.status = :newStatus WHERE c.id = :companyId").setParameter("newStatus", newStatus).setParameter("companyId", companyId).executeUpdate();
     }
 
 
     public void updateEmployeeCompany(Long newCompanyId, Long oldCompanyId) {
         String jpql = "UPDATE Employee e SET e.company.id = :newCompanyId WHERE e.company.id = :oldCompanyId";
-        Query query = em.createQuery(jpql);
+        Query query = manager.createQuery(jpql);
         query.setParameter("newCompanyId", newCompanyId);
         query.setParameter("oldCompanyId", oldCompanyId);
         int updatedCount = query.executeUpdate();
@@ -73,8 +71,7 @@ public class ComRepository extends CompaniesRepository {
     }
 
     public Companies getCompany(Long id) {
-        return em.createQuery("SELECT c FROM Companies c WHERE c.id=:id", Companies.class)
-                .setParameter("id", id).getSingleResult();
+        return manager.createQuery("SELECT c FROM Companies c WHERE c.id=:id", Companies.class).setParameter("id", id).getSingleResult();
     }
 
 

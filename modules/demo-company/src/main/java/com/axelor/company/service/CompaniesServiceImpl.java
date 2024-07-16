@@ -22,9 +22,9 @@ public class CompaniesServiceImpl implements CompaniesService {
             throw new RuntimeException("Не найдено !!!");
         }
         if (hasChanges(oldCompany, newCompanyData)) {
-            changeStatusOldCompany(oldCompany);
             Companies newCompany = createNewCompany(newCompanyData);
             companiesRepository.save(newCompany);
+            changeStatusOldCompany(oldCompany);
             updateEmployeeCompany(newCompany.getId(), oldCompany.getId());
         } else {
             System.out.println("Нет изменений для сохранения");
