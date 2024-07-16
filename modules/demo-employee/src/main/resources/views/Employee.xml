@@ -2,21 +2,35 @@
 <object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://axelor.com/xml/ns/object-views https://axelor.com/xml/ns/object-views/object-views_7.1.xsd">
 
-    <grid name="employee-grid" title="Employee List" model="com.axelor.employee.db.Employee">
+    <grid name="empl-grid" title="Employee List" model="com.axelor.employee.db.Employee">
         <field name="firstName" />
         <field name="lastName" />
         <field name="email" />
         <field name="age" />
-        <field name="active" />
+        <field name="status" />
+        <field name="company.name" title="Company"/>
     </grid>
 
-    <form name="employee-form" title="Employee" model="com.axelor.employee.db.Employee">
-        <panel title="Overview">
+<!--    <form name="empl-form" title="Employee" model="com.axelor.employee.db.Employee">-->
+<!--        <panel title="Overview" onChange="com.axelor.empl.web.EmployeeController:updateEmployee">-->
+<!--            <field name="firstName" colSpan="12"/>-->
+<!--            <field name="lastName" />-->
+<!--            <field name="email" />-->
+<!--            <field name="age" />-->
+<!--            <field name="company"/>-->
+<!--&lt;!&ndash;            <button name="btnTotalAmount" onClick="com.axelor.empl.web.EmployeeController:updateEmployee" title="Edit"/>&ndash;&gt;-->
+<!--        </panel>-->
+<!--    </form>-->
+    <form name="empl-form" title="Employee" model="com.axelor.employee.db.Employee">
+        <panel title="Create Employee">
             <field name="firstName" colSpan="12"/>
             <field name="lastName" />
             <field name="email" />
-            <field name="age" />
+            <field name="age"/>
+            <field name="company"  canEdit="true" />
         </panel>
     </form>
+
+
 
 </object-views>

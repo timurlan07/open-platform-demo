@@ -4,11 +4,21 @@ plugins {
 }
 
 axelor {
-    title = "Axelor :: Empl"
+    title = "Axelor :: Employee"
 }
 
 dependencies {
     api project(":modules:demo-company")
 }
+
+
+
+//dependencies {
+//    implementation project(path: ':modules:demo-company')
+//}
+
+//dependencies {
+//    api project(":modules:demo-company")
+//}
 
 

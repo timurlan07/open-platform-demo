@@ -3,11 +3,15 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://axelor.com/xml/ns/object-views https://axelor.com/xml/ns/object-views/object-views_7.1.xsd">
 
-    <menuitem name="employee list" order="-100" title="Employee Info" icon="fa-book" icon-background="yellow"/>
+    <menuitem name="employee.list" order="-100" title="Employee Info" icon="fa-book" icon-background="yellow"/>
 
-    <action-view name="car" model="com.axelor.employee.db.Employee" title="Employee">
-        <view type="grid" name="employee-grid"/>
-        <view type="form" name="employee-form"/>
+    <menuitem name="employee.e" parent="employee.list"
+              title="Employee list"
+              action="employee.em" />
+
+    <action-view name="employee.em" model="com.axelor.employee.db.Employee" title="Employee">
+        <view type="grid" name="empl-grid"/>
+        <view type="form" name="empl-form"/>
     </action-view>
 
 </object-views>

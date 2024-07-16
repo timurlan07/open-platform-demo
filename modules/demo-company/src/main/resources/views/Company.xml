@@ -2,19 +2,24 @@
 <object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://axelor.com/xml/ns/object-views https://axelor.com/xml/ns/object-views/object-views_7.1.xsd">
 
-    <grid name="company-grid" title="Company List" model="com.axelor.company.db.Companies">
-        <field name="name" />
-        <field name="location" />
-        <field name="dateOfCreation" />
-        <field name="active" />
+    <grid name="com-grid" title="Company List" model="com.axelor.company.db.Companies">
+        <field name="name"/>
+        <field name="location"/>
+        <field name="dateOfCreation"/>
+        <field name="status"/>
     </grid>
-
-    <form name="company-form" title="Company" model="com.axelor.company.db.Companies">
+    <form name="com-form" title="Company" model="com.axelor.company.db.Companies" onSave="com.axelor.company.web.CompaniesController:updateCompany">
+        <toolbar>
+            <button name="edit" title="edit" onClick="com.axelor.company.web.CompaniesController:updateCompany"/>
+        </toolbar>
         <panel title="Overview">
             <field name="name" colSpan="12"/>
-            <field name="location" />
-            <field name="dateOfCreation" />
+            <field name="location"/>
+            <field name="dateOfCreation"/>
         </panel>
     </form>
+
+    <!--            onChange="com.axelor.company.web.CompaniesController:updateCompany"-->
+    <!--            <button name="btnTotalAmount" onClick="com.axelor.company.web.CompaniesController:updateCompany" title="Edit"/>-->
 
 </object-views>

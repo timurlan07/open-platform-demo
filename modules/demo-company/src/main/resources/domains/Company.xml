@@ -5,12 +5,18 @@
 
     <module name="company" package="com.axelor.company.db"/>
 
-    <entity name="Companies" cacheable="true">
-        <string name="name" required="true" unique="true" />
+    <entity name="Companies"  cacheable="true" repository="default">
+        <string name="name" required="true" />
         <string name="location" required="true"/>
         <date name="dateOfCreation" required="true" />
-        <boolean name="active" required="true" />
-        <one-to-many name="employee" ref="Employee" mappedBy="company"/>
+        <enum name="status" ref="Status" default="ACTIVE" />
+<!--        <entity-listener class="com.axelor.company.service.CompanyEntityListener"/>-->
+<!--        <one-to-many name="employees" ref="com.axelor.employee.db.Employee" mappedBy="company" />-->
     </entity>
+
+    <enum name="Status">
+        <item name="ACTIVE"/>
+        <item name="INACTIVE"/>
+    </enum>
 
 </domain-models>
